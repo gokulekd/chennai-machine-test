@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "485979816391",
+    "project_id": "machine-test-chennai",
+    "storage_bucket": "machine-test-chennai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485979816391:android:f041de56d902874cfad9e2",
+        "android_client_info": {
+          "package_name": "com.example.chennai_machine_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485979816391-vvolcib80ovge38cqob3fosq8qvhrnen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNx9mVjHPrbmzcPILNUdmUOmUilgjip6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485979816391-vvolcib80ovge38cqob3fosq8qvhrnen.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
