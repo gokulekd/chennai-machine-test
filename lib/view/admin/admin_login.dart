@@ -1,8 +1,10 @@
 import 'package:chennai_machine_test/service/firebase_auth_admin.dart';
+import 'package:chennai_machine_test/view/admin/select_category_admin.dart';
 import 'package:chennai_machine_test/widgets/commen_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class _AdminLoginState extends State<AdminLogin> {
   TextEditingController usernameController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
-final adminController = Get.find<FirebaseAuthAdmin>();
+  final adminController = Get.find<FirebaseAuthAdmin>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,12 @@ final adminController = Get.find<FirebaseAuthAdmin>();
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text("Please wait...",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                  child: Text(
+                                    "Please wait...",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ],
                             ),
@@ -89,7 +96,17 @@ final adminController = Get.find<FirebaseAuthAdmin>();
                                     colorText: Colors.white);
                               } else if (email.isNotEmpty ||
                                   password.isNotEmpty) {
-                                adminController.adminLogin(email, password);
+                                if (email == "admin@kssmart.co" &&
+                                    password == "123456") {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs
+                                      .setBool("flag", true)
+                                      .then((value) {
+                                    Get.off(() => const SelectCatagoryAdmin());
+                                    return value;
+                                  });
+                                }
                               }
                             },
                             child: const Text(

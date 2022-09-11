@@ -1,5 +1,4 @@
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<CompanyModel> companyModelFromJson(String str) => List<CompanyModel>.from(json.decode(str).map((x) => CompanyModel.fromJson(x)));

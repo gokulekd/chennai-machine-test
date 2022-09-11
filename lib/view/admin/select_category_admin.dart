@@ -2,7 +2,6 @@
 import 'package:chennai_machine_test/view/admin/create_project.dart';
 import 'package:chennai_machine_test/view/admin/create_user.dart';
 import 'package:chennai_machine_test/view/screen_home.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -19,7 +18,7 @@ class SelectCatagoryAdmin extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
+            
               final prefs =  await SharedPreferences.getInstance();
               prefs.clear();
               Get.offAll(()=>const ScreenHomepage());

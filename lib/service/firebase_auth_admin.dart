@@ -1,5 +1,6 @@
+
 import 'dart:developer';
-import 'dart:math';
+
 import 'package:chennai_machine_test/model/create_project.dart';
 import 'package:chennai_machine_test/view/admin/select_category_admin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,6 +38,7 @@ class FirebaseAuthAdmin extends GetxController {
       Get.snackbar("Firebase Error", e.message.toString(),
           backgroundColor: Colors.red, colorText: Colors.white);
     } catch (e) {
+      // ignore: avoid_print
       print(e.toString());
     } finally {
       adminLoggedIn(false);
@@ -59,6 +61,7 @@ class FirebaseAuthAdmin extends GetxController {
           'DateofBirth': date,
           'role': "user"
         });
+        FirebaseAuth.instance.signOut();
         adminCreatedUser(false);
         Get.off(() => const SelectCatagoryAdmin());
         return value;
@@ -74,7 +77,7 @@ class FirebaseAuthAdmin extends GetxController {
       Get.snackbar("Firebase Error", e.toString(),
           backgroundColor: Colors.red, colorText: Colors.white);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     } finally {
       adminCreatedUser(false);
     }
@@ -91,8 +94,8 @@ class FirebaseAuthAdmin extends GetxController {
     String longitude,
   ) async {
     try {
-      Random random2 = Random.secure();
-      var randomNumber = random2.nextInt(856868);
+      // Random random2 = Random.secure();
+      // var randomNumber = random2.nextInt(856868);
       var addNewProject = CreateProject(
               id: id,
               projectName: projectName,
@@ -104,15 +107,15 @@ class FirebaseAuthAdmin extends GetxController {
           .tojson();
       adminCreatedProject(true);
       await FirebaseFirestore.instance
-          .collection("AssinedProject")
+          .collection("NewProject")
           .doc(id)
-          .collection(randomNumber.toString())
+          .collection("projectID")
           .add(addNewProject)
           .then((value) async {
         Get.snackbar("Message", "project assined to  User Sucssesfully",
             backgroundColor: Colors.green, colorText: Colors.white);
         adminCreatedProject(false);
-        Get.off(() => const SelectCatagoryAdmin());
+        Get.offAll(() => const SelectCatagoryAdmin());
       });
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Firebase Error", e.message.toString(),
@@ -121,6 +124,7 @@ class FirebaseAuthAdmin extends GetxController {
       Get.snackbar("Firebase Error", e.toString(),
           backgroundColor: Colors.red, colorText: Colors.white);
     } catch (e) {
+      // ignore: avoid_print
       print(e.toString()) ;
     } finally {
       adminCreatedProject(false);

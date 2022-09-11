@@ -14,12 +14,13 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
-  TextEditingController usernameController = TextEditingController();
 
-  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+TextEditingController usernameController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -57,17 +58,16 @@ class _UserLoginState extends State<UserLogin> {
                       primary: const Color.fromARGB(255, 0, 0, 0),
                     ),
                     onPressed: () async {
-                     
                       final String email = usernameController.text.trim();
                       final String password = passwordController.text.trim();
                       if (email.isEmpty || password.isEmpty) {
                         Get.snackbar("Oops..", "All field Required",
                             backgroundColor: Colors.red,
                             colorText: Colors.white);
-                      } else if (email.isNotEmpty ||
-                          password.isNotEmpty 
-                      ) {
-                      final userid =  await FirebaseAuthUser().userLogin(email, password);
+                      } 
+                        if (email.isNotEmpty || password.isNotEmpty ) {
+
+                        await FirebaseAuthUser().userLogin(email, password);
                       }
                     },
                     child: const Text(

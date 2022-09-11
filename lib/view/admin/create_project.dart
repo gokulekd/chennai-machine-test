@@ -36,6 +36,8 @@ class _ScreenCreateNewProjectFromAdminState
 
   @override
   Widget build(BuildContext context) {
+
+    final w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -44,67 +46,6 @@ class _ScreenCreateNewProjectFromAdminState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-
-
-
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("user")
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.active) {
-                        if (snapshot.hasData && snapshot.data != null) {
-                          return DropdownButtonFormField(
-                            hint: Text(selectuser),
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    width: 2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: textFormfieldColor, width: 2),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              filled: true,
-                              fillColor: textFormfieldColor,
-                            ),
-                            dropdownColor: Colors.white,
-                            value: userselection == null
-                                ? userselection
-                                : controller.newuserAssing.value.toString(),
-                            onChanged: (String? newValue) {
-                              git 
-                              
-                          
-    var data = snapshot.data!.docs.where((items) => (items ["email"] == newValue);
-
-
-                          
-                            },
-                            items: snapshot.data!.docs
-                                .map<DropdownMenuItem<String>>((items) {
-                              return DropdownMenuItem<String>(
-                                value: items["email"],
-                                child: Text(items["email"] ),
-                              );
-                            }).toList(),
-                          );
-                        }
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Text(
-                          "please wait ..Loading Data",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        );
-                      }
-                      return const SizedBox();
-                    }),
                 const SizedBox(
                   height: 50,
                 ),
@@ -194,7 +135,7 @@ class _ScreenCreateNewProjectFromAdminState
                               filled: true,
                               fillColor: textFormfieldColor,
                             ),
-                            dropdownColor: textFormfieldColor,
+                            dropdownColor: Colors.white,
                             value: selectedValue == null
                                 ? selectedValue
                                 : controller.newValueDropdown.value.toString(),
@@ -244,7 +185,7 @@ class _ScreenCreateNewProjectFromAdminState
                                   color: Colors.grey.withOpacity(0.7),
                                   borderRadius: BorderRadius.circular(10)),
                               height: 60,
-                              width: 360,
+                              width: w*0.95,
                               child: hintTextWebsite == null
                                   ? const Align(
                                       alignment: Alignment.centerLeft,
@@ -271,8 +212,8 @@ class _ScreenCreateNewProjectFromAdminState
                               decoration: BoxDecoration(
                                   color: Colors.grey.withOpacity(0.7),
                                   borderRadius: BorderRadius.circular(10)),
-                              height: 60,
-                              width: 360,
+                               height: 60,
+                              width: w*0.95,
                               child: hintTextWebsite == null
                                   ? const Align(
                                       alignment: Alignment.centerLeft,
@@ -299,8 +240,8 @@ class _ScreenCreateNewProjectFromAdminState
                               decoration: BoxDecoration(
                                   color: Colors.grey.withOpacity(0.7),
                                   borderRadius: BorderRadius.circular(10)),
-                              height: 60,
-                              width: 360,
+                               height: 60,
+                              width: w*0.95,
                               child: hintGeoLongitude == null
                                   ? const Align(
                                       alignment: Alignment.centerLeft,
@@ -318,10 +259,21 @@ class _ScreenCreateNewProjectFromAdminState
                                     ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          DropdownButtonFormField(
+                        ],
+                      );
+                    }),
+                const SizedBox(
+                  height: 20,
+                ),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("user")
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        if (snapshot.hasData && snapshot.data != null) {
+                          return DropdownButtonFormField(
                             hint: Text(selectuser),
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -338,46 +290,37 @@ class _ScreenCreateNewProjectFromAdminState
                               filled: true,
                               fillColor: textFormfieldColor,
                             ),
-                            dropdownColor: textFormfieldColor,
+                            dropdownColor: Colors.white,
                             value: userselection == null
                                 ? userselection
                                 : controller.newuserAssing.value.toString(),
-                            onChanged: (String? newValue) {
-                              setState(
-                                () {
-                                  log(newValue.toString());
-                                  selectuser = newValue!;
-                                  for (var i = 0;
-                                      i < usercontroller.alluserList.length;
-                                      i++) {
-                                    if (newValue ==
-                                        usercontroller
-                                            .alluserList[i].username) {
-                                      setState(() {
-                                        selectedUserId =
-                                            usercontroller.alluserList[i].id;
-
-                                        log(selectedUserId.toString());
-                                      });
-                                    }
-                                  }
-
-                                  controller.update();
-                                },
-                              );
+                            onChanged: (String? newValue) async {
+                              var data = snapshot.data!.docs
+                                  .where((e) => e["email"] == newValue)
+                                  .toList();
+                              selectedUserId = data[0]["uid"];
+                            
                             },
-                            items: usercontroller.alluserList
+                            items: snapshot.data!.docs
                                 .map<DropdownMenuItem<String>>((items) {
                               return DropdownMenuItem<String>(
-                                value: items.username,
-                                child: Text(items.username.toString()),
+                                value: items["email"],
+                                child: Text(items["email"]),
                               );
                             }).toList(),
-                          ),
-                        ],
-                      );
+                          );
+                        }
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Text(
+                          "please wait ..Loading Data",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        );
+                      }
+                      return const SizedBox();
                     }),
-                const SizedBox(
+                       const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -413,6 +356,9 @@ class _ScreenCreateNewProjectFromAdminState
                               onPressed: () async {
                                 FocusScopeNode currentFocus =
                                     FocusScope.of(context);
+                                var date = DateTime.parse(value!.toString());
+                                var formattedDate =
+                                    "${date.day}-${date.month}-${date.year}";
 
                                 if (!currentFocus.hasPrimaryFocus) {
                                   currentFocus.unfocus();
@@ -431,7 +377,7 @@ class _ScreenCreateNewProjectFromAdminState
                                       selectedUserId!,
                                       project,
                                       hintTextCompany,
-                                      value.toString(),
+                                      formattedDate,
                                       hintTextWebsite!,
                                       hintGeoLatitude!,
                                       hintGeoLongitude!);
@@ -453,58 +399,3 @@ class _ScreenCreateNewProjectFromAdminState
     );
   }
 }
-
-//  Obx(
-//                     () => adminController.adminCreatedUser.value == true
-//                         ? SizedBox(
-//                             height: 150,
-//                             width: 150,
-//                             child: Column(
-//                               children: const [
-//                                 Center(
-//                                   child: CircularProgressIndicator(),
-//                                 ),
-//                                 Padding(
-//                                   padding: EdgeInsets.all(8.0),
-//                                   child: Text(
-//                                     "Please wait...",
-//                                     style: TextStyle(
-//                                         fontSize: 18,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           )
-//                         : ElevatedButton(
-//                             style: ElevatedButton.styleFrom(
-//                               fixedSize: const Size(200, 40),
-//                               primary: const Color.fromARGB(255, 0, 0, 0),
-//                             ),
-//                             onPressed: () async {
-//                               FocusScopeNode currentFocus =
-//                                   FocusScope.of(context);
-
-//                               if (!currentFocus.hasPrimaryFocus) {
-//                                 currentFocus.unfocus();
-//                               }
-//                               final String email =
-//                                   usernameController.text.trim();
-//                               final String password =
-//                                   passwordController.text.trim();
-//                               if (email.isEmpty || password.isEmpty) {
-//                                 Get.snackbar("Oops..", "All field Required",
-//                                     backgroundColor: Colors.red,
-//                                     colorText: Colors.white);
-//                               } else if (email.isNotEmpty ||
-//                                   password.isNotEmpty) {
-//                                 adminController.adminCreateUsers(
-//                                     email, password, value!.toString());
-//                               }
-//                             },
-//                             child: const Text(
-//                               "Submit",
-//                               style: TextStyle(fontSize: 22),
-//                             ),
-//                           ),
-//                   ),

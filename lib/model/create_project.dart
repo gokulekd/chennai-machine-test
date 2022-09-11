@@ -1,11 +1,11 @@
 class CreateProject {
-  final String id;
-  final String projectName;
-  final String companyName;
-  final String date;
-  final String website;
-  final String latitude;
-  final String longitude;
+  final String? id;
+  final String? projectName;
+  final String? companyName;
+  final String? date;
+  final String? website;
+  final String? latitude;
+  final String? longitude;
 
   CreateProject(
       {required this.id,
@@ -26,4 +26,22 @@ class CreateProject {
       'longitude': longitude,
     };
   }
-}
+ static CreateProject fromJson(Map<String,dynamic>json){
+  return CreateProject(
+
+      id: json["id"],
+      date: json['date'],
+      projectName: json["projectName"],
+      companyName: json["companyName"],
+      website: json["website"],
+      latitude: json["latitude"],
+      longitude: json["longitude"],);
+    }
+  }
+
+
+
+
+
+
+

@@ -1,17 +1,28 @@
+import 'package:chennai_machine_test/view/screen_home.dart';
 import 'package:chennai_machine_test/view/user/my_project_List_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'my_bio.dart';
 
 class SelectCatagoryUser extends StatelessWidget {
-  const SelectCatagoryUser({Key? key}) : super(key: key);
+    final String useruid;
+  const SelectCatagoryUser({Key? key,required this.useruid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Get.offAll(() => const ScreenHomepage());
+              },
+              icon: const Icon(Icons.logout))
+        ],
         leading: const SizedBox(),
         centerTitle: true,
         title: const Text("Select Category"),
@@ -37,7 +48,7 @@ class SelectCatagoryUser extends StatelessWidget {
                     primary: const Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () {
-                    Get.to(() =>  ScreenBioViewUser());
+                    Get.to(() => ScreenBioViewUser(uid:useruid ,));
                   },
                   child: const Text(
                     "My Bio",
@@ -53,7 +64,7 @@ class SelectCatagoryUser extends StatelessWidget {
                     primary: const Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () {
-                   Get.to(() => const ScreenMyProjectListViewsUser());
+                    Get.to(() => const ScreenMyProjectListViewsUser());
                   },
                   child: const Text(
                     "My Project",

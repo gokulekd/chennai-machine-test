@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chennai_machine_test/service/firebase_auth_admin.dart';
 
 import 'package:chennai_machine_test/widgets/commen_text_field.dart';
@@ -128,6 +130,12 @@ class _ScreenCreateUserFromAdminState extends State<ScreenCreateUserFromAdmin> {
                               primary: const Color.fromARGB(255, 0, 0, 0),
                             ),
                             onPressed: () async {
+                              var date =
+                                  DateTime.parse(value!.toString());
+                              var formattedDate =
+                                  "${date.day}-${date.month}-${date.year}";
+
+                              log(formattedDate);
                               FocusScopeNode currentFocus =
                                   FocusScope.of(context);
 
@@ -145,7 +153,7 @@ class _ScreenCreateUserFromAdminState extends State<ScreenCreateUserFromAdmin> {
                               } else if (email.isNotEmpty ||
                                   password.isNotEmpty) {
                                 adminController.adminCreateUsers(
-                                    email, password, value!.toString());
+                                    email, password, formattedDate.toString());
                               }
                             },
                             child: const Text(
