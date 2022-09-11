@@ -4,7 +4,6 @@ import 'dart:convert';
 List<CompanyModel> companyModelFromJson(String str) => List<CompanyModel>.from(json.decode(str).map((x) => CompanyModel.fromJson(x)));
 
 String companyModelToJson(List<CompanyModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class CompanyModel {
     CompanyModel({
         required this.id,
