@@ -1,6 +1,7 @@
 import 'package:chennai_machine_test/controller/api_controller.dart';
 import 'package:chennai_machine_test/service/firebase_auth_user.dart';
 import 'package:chennai_machine_test/view/screen_home.dart';
+import 'package:chennai_machine_test/view/user/screen_new_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
